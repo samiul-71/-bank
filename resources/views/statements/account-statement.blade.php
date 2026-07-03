@@ -63,9 +63,11 @@
         td.num { text-align: right; }
         td.ctr { text-align: center; }
 
-        /* ---- Totals row: only the label + Debit + Credit cells are boxed,
-                the surrounding cells are left blank (no border) ---- */
-        table.txn td.blank { border: 0; }
+        /* ---- Totals row: a detached box below the table (gap above),
+                only the label + Debit + Credit cells are boxed, the
+                surrounding cells are left blank (no border) ---- */
+        table.totals { margin-top: 16px; }
+        table.txn td.blank { border: 0; padding: 0; }
         table.txn td.total-label {
             text-align: right;
             font-weight: bold;
@@ -184,19 +186,23 @@
                     </tr>
                 @endif
             @endforeach
-
-            {{-- Totals: sum of Debit & Credit columns, boxed like the reference --}}
-            <tr>
-                <td class="blank"></td>
-                <td class="blank"></td>
-                <td class="blank"></td>
-                <td class="blank"></td>
-                <td class="total-label">Total :</td>
-                <td class="num total-val">{{ $fmt($total_debit) }}</td>
-                <td class="num total-val">{{ $fmt($total_credit) }}</td>
-                <td class="blank"></td>
-            </tr>
         </tbody>
+    </table>
+
+    {{-- Totals: a detached, boxed row (Debit & Credit sums) sitting a little
+         below the table, matching the reference layout. Same fixed column
+         widths keep it aligned under the Debit / Credit columns. --}}
+    <table class="txn totals">
+        <tr>
+            <td class="c-date blank"></td>
+            <td class="c-cheque blank"></td>
+            <td class="c-ref blank"></td>
+            <td class="c-narr blank"></td>
+            <td class="c-det total-label">Total :</td>
+            <td class="c-amt num total-val">{{ $fmt($total_debit) }}</td>
+            <td class="c-amt num total-val">{{ $fmt($total_credit) }}</td>
+            <td class="c-amt blank"></td>
+        </tr>
     </table>
 
     @if (! empty($notes))
