@@ -36,7 +36,12 @@
         .btn { display: inline-block; padding: 6px 12px; border-radius: 6px; font-size: 13px; text-decoration: none; }
         .btn-view { background: #e0edff; color: #1d4ed8; }
         .btn-dl   { background: #dcfce7; color: #15803d; }
+        .btn-imp  { background: #fef3c7; color: #b45309; }
         .empty { padding: 40px; text-align: center; color: #64748b; }
+        .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .btn-new { background: #2563eb; color: #fff; text-decoration: none; padding: 9px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+        .btn-new:hover { background: #1d4ed8; }
+        .flash { background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -52,7 +57,14 @@
     </header>
 
     <main>
-        <h2>Account Statements</h2>
+        @if (session('status'))
+            <div class="flash">{{ session('status') }}</div>
+        @endif
+
+        <div class="topbar">
+            <h2 style="margin:0">Account Statements</h2>
+            <a class="btn-new" href="{{ route('accounts.create') }}">+ New Account</a>
+        </div>
 
         <table>
             <thead>
@@ -72,6 +84,8 @@
                         <td>{{ $account->account_type }}</td>
                         <td>{{ $account->transactions_count }}</td>
                         <td style="text-align:right; white-space:nowrap">
+                            <a class="btn btn-imp"
+                               href="{{ route('accounts.import.create', $account) }}">Import</a>
                             <a class="btn btn-view" target="_blank"
                                href="{{ route('statement.download', $account) }}">View PDF</a>
                             <a class="btn btn-dl"
