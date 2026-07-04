@@ -9,8 +9,8 @@ return [
     | Change them (or override via .env) to brand the statement for your
     | own solution — the layout stays identical, only the wording differs.
     */
-    'institution' => env('STATEMENT_INSTITUTION', 'Digital Bank Ltd.'),
-    'branch'      => env('STATEMENT_BRANCH', 'Corporate Banking Division'),
+    'institution' => env('STATEMENT_INSTITUTION', 'United Commercial Bank PLC'),
+    'branch'      => env('STATEMENT_BRANCH', 'Gausul Azam Avenue Branch'),
     'title'       => env('STATEMENT_TITLE', 'Account Statement'),
 
     /*
@@ -18,7 +18,7 @@ return [
     | mirroring the reference document. Edit freely — fully dynamic.
     */
     'notes' => [
-        'This report is provided by ' . rtrim(env('STATEMENT_INSTITUTION', 'Digital Bank Ltd.'), '.') . '.',
+        'This report is provided by ' . rtrim(env('STATEMENT_INSTITUTION', 'United Commercial Bank PLC'), '.') . '.',
         'Remember, this is a system generated report and do not use it for official use.',
     ],
 ];
