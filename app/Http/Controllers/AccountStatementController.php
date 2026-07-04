@@ -24,7 +24,8 @@ class AccountStatementController extends Controller
         $data['notes']       = config('statement.notes', []);
 
         $pdf = Pdf::loadView('statements.account-statement', $data)
-            ->setPaper('a4', 'portrait');
+            // Match the reference document's page size exactly: 700 x 842 pt.
+            ->setPaper([0, 0, 700, 842]);
 
         // Render once, then stamp "Page X of Y" on every page. Doing this after
         // render() means the total page count is known and correct, and the
@@ -49,7 +50,7 @@ class AccountStatementController extends Controller
         $fontMetrics = $dompdf->getFontMetrics();
 
         $text = 'Page {PAGE_NUM} of {PAGE_COUNT}';
-        $size = 8.5;
+        $size = 10;
         $font = $fontMetrics->getFont('Helvetica');
         $width = $fontMetrics->getTextWidth($text, $font, $size);
 

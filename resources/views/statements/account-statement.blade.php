@@ -8,31 +8,32 @@
 <head>
     <meta charset="utf-8">
     <style>
-        @page { margin: 28px 26px 48px 26px; }
+        /* Page + margins measured from the reference: 700x842pt, table 20->680. */
+        @page { margin: 22pt 20pt 30pt 20pt; }
 
         * { box-sizing: border-box; }
 
         body {
-            /* Reference statement uses Helvetica; dompdf ships it as a core font. */
+            /* Reference statement: Helvetica 10pt throughout (dompdf core font). */
             font-family: Helvetica, Arial, sans-serif;
-            font-size: 8.5px;
+            font-size: 10pt;
             color: #000;
             margin: 0;
         }
 
         /* ---- Top branding header (prints once, above the table) ---- */
         .brand { text-align: center; }
-        .brand h1 { font-size: 13px; font-weight: bold; margin: 0 0 6px; }
-        .brand h2 { font-size: 12px; font-weight: bold; margin: 0 0 6px; }
-        .brand h3 { font-size: 12px; font-weight: bold; margin: 0 0 10px; }
+        .brand h1 { font-size: 14pt; font-weight: bold; margin: 0 0 7pt; }
+        .brand h2 { font-size: 14pt; font-weight: bold; margin: 0 0 7pt; }
+        .brand h3 { font-size: 14pt; font-weight: bold; margin: 0 0 11pt; }
 
         /* ---- Account info block ---- */
-        .info { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
-        .info td { vertical-align: top; padding: 1.5px 4px; }
-        .info .label  { width: 78px; }
-        .info .value  { width: 175px; }
-        .info .gap    { width: 40px; }
-        .info .rlabel { width: 132px; }
+        .info { width: 100%; border-collapse: collapse; margin-bottom: 8pt; }
+        .info td { vertical-align: top; padding: 1.5pt 4pt; }
+        .info .label  { width: 82pt; }
+        .info .value  { width: 205pt; }
+        .info .gap    { width: 28pt; }
+        .info .rlabel { width: 165pt; }
 
         /* ---- Transaction table (thead auto-repeats on every page) ---- */
         table.txn {
@@ -50,15 +51,19 @@
         }
         table.txn thead th {
             background: #d9d9d9;
-            font-weight: bold;
+            /* Reference column headers are regular weight (only titles are bold). */
+            font-weight: normal;
             text-align: center;
         }
-        .c-date   { width: 9%;    text-align: center; }
-        .c-cheque { width: 8%;    text-align: center; }
-        .c-ref    { width: 11%;   text-align: center; }
-        .c-narr   { width: 15%;   text-align: center; }
-        .c-det    { width: 15%; }
-        .c-amt    { width: 10.6%; text-align: right; }
+        /* Column widths measured from the reference grid (% of the 660pt table). */
+        .c-date    { width: 15.2%; text-align: center; }
+        .c-cheque  { width: 12.1%; text-align: center; }
+        .c-ref     { width: 11.5%; text-align: center; }
+        .c-narr    { width: 12.1%; text-align: center; }
+        .c-det     { width: 14.2%; }
+        .c-debit   { width: 11.5%; text-align: right; }
+        .c-credit  { width: 9.4%;  text-align: right; }
+        .c-balance { width: 13.9%; text-align: right; }
 
         td.num { text-align: right; }
         td.ctr { text-align: center; }
@@ -66,19 +71,21 @@
         /* ---- Totals row: a detached box below the table (gap above),
                 only the label + Debit + Credit cells are boxed, the
                 surrounding cells are left blank (no border) ---- */
-        table.totals { margin-top: 16px; }
+        table.totals { margin-top: 16pt; }
         table.txn td.blank { border: 0; padding: 0; }
+        /* Reference: "Total :" label is 12pt regular; the numbers are 10pt regular. */
         table.txn td.total-label {
             text-align: right;
-            font-weight: bold;
+            font-size: 12pt;
+            font-weight: normal;
         }
-        table.txn td.total-val { font-weight: bold; }
+        table.txn td.total-val { font-weight: normal; }
 
-        /* ---- Footer notes ---- */
-        .notes { margin-top: 14px; font-size: 8.5px; }
-        .notes .title { font-weight: bold; margin-bottom: 3px; }
-        .notes ol { margin: 0; padding-left: 18px; }
-        .notes li { margin: 1px 0; }
+        /* ---- Footer notes: body 10pt, "Notes:" heading 10pt bold ---- */
+        .notes { margin-top: 14pt; font-size: 10pt; }
+        .notes .title { font-weight: bold; margin-bottom: 3pt; }
+        .notes ol { margin: 0; padding-left: 18pt; }
+        .notes li { margin: 1pt 0; }
     </style>
 </head>
 <body>
@@ -159,9 +166,9 @@
                 <th class="c-ref">Ref.</th>
                 <th class="c-narr">Narration</th>
                 <th class="c-det">Trans. Details</th>
-                <th class="c-amt">Debit</th>
-                <th class="c-amt">Credit</th>
-                <th class="c-amt">Balance</th>
+                <th class="c-debit">Debit</th>
+                <th class="c-credit">Credit</th>
+                <th class="c-balance">Balance</th>
             </tr>
         </thead>
         <tbody>
@@ -199,9 +206,9 @@
             <td class="c-ref blank"></td>
             <td class="c-narr blank"></td>
             <td class="c-det total-label">Total :</td>
-            <td class="c-amt num total-val">{{ $fmt($total_debit) }}</td>
-            <td class="c-amt num total-val">{{ $fmt($total_credit) }}</td>
-            <td class="c-amt blank"></td>
+            <td class="c-debit num total-val">{{ $fmt($total_debit) }}</td>
+            <td class="c-credit num total-val">{{ $fmt($total_credit) }}</td>
+            <td class="c-balance blank"></td>
         </tr>
     </table>
 
