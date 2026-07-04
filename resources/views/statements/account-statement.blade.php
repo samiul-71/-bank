@@ -27,13 +27,20 @@
         .brand h2 { font-size: 14pt; font-weight: bold; margin: 0 0 7pt; }
         .brand h3 { font-size: 14pt; font-weight: bold; margin: 0 0 11pt; }
 
-        /* ---- Account info block ---- */
-        .info { width: 100%; border-collapse: collapse; margin-bottom: 8pt; }
-        .info td { vertical-align: top; padding: 1.5pt 4pt; }
-        .info .label  { width: 82pt; }
-        .info .value  { width: 205pt; }
-        .info .gap    { width: 28pt; }
-        .info .rlabel { width: 165pt; }
+        /* ---- Account info block: two independent columns so each side keeps
+                its own vertical spacing (matches the reference) ---- */
+        .info-wrap { width: 100%; border-collapse: collapse; margin-bottom: 8pt; }
+        .info-wrap > tbody > tr > td { vertical-align: top; padding: 0; }
+        .col-left  { width: 50%; }
+        .col-right { width: 50%; }
+        .kv { width: 100%; border-collapse: collapse; }
+        .kv td { vertical-align: top; padding: 1.5pt 4pt; }
+        .kv .label  { width: 78pt; }
+        .kv .rlabel { width: 140pt; }
+        /* Blank spacer rows reproduce the gaps in the reference. */
+        .kv tr.sp1 td { height: 15pt; }
+        .kv tr.sp3 td { height: 62pt; }
+        .kv tr.sp-sm td { height: 6pt; }
 
         /* ---- Transaction table (thead auto-repeats on every page) ---- */
         table.txn {
@@ -45,7 +52,8 @@
         table.txn th, table.txn td {
             border: 0.7px solid #000;
             padding: 3px 4px;
-            vertical-align: top;
+            /* Reference centers each value vertically within its row. */
+            vertical-align: middle;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -99,62 +107,76 @@
         <h3>{{ $title }}</h3>
     </div>
 
-    <table class="info">
+    <table class="info-wrap">
         <tr>
-            <td class="label">Name :</td>
-            <td class="value">{{ $account->name }}</td>
-            <td class="gap"></td>
-            <td class="rlabel">Customer ID :</td>
-            <td>{{ $account->customer_id }}</td>
-        </tr>
-        <tr>
-            <td class="label">Joint Name :</td>
-            <td class="value">{{ $account->joint_name }}</td>
-            <td class="gap"></td>
-            <td class="rlabel">A/C No. :</td>
-            <td>{{ $account->account_no }}</td>
-        </tr>
-        <tr>
-            <td class="label">F/H/P :</td>
-            <td class="value">{{ $account->fhp }}</td>
-            <td class="gap"></td>
-            <td class="rlabel">Prev. A/C No. :</td>
-            <td>{{ $account->prev_account_no }}</td>
-        </tr>
-        <tr>
-            <td class="label">Address :</td>
-            <td class="value">{{ $account->address }}</td>
-            <td class="gap"></td>
-            <td class="rlabel">A/C Type :</td>
-            <td>{{ $account->account_type }}</td>
-        </tr>
-        <tr>
-            <td class="label"></td>
-            <td class="value"></td>
-            <td class="gap"></td>
-            <td class="rlabel">Currency :</td>
-            <td>{{ $account->currency }}</td>
-        </tr>
-        <tr>
-            <td class="label">City :</td>
-            <td class="value">{{ $account->city }}</td>
-            <td class="gap"></td>
-            <td class="rlabel">A/C Status :</td>
-            <td>{{ $account->status }}</td>
-        </tr>
-        <tr>
-            <td class="label">Phone :</td>
-            <td class="value">{{ $account->phone }}</td>
-            <td class="gap"></td>
-            <td class="rlabel">Period :</td>
-            <td>{{ $period_from }} to {{ $period_to }}</td>
-        </tr>
-        <tr>
-            <td class="label"></td>
-            <td class="value"></td>
-            <td class="gap"></td>
-            <td class="rlabel">Uncleared/ Floating Balance :</td>
-            <td>{{ $fmt($account->uncleared_balance) }}</td>
+            <td class="col-left">
+                <table class="kv">
+                    <tr>
+                        <td class="label">Name :</td>
+                        <td>{{ $account->name }}</td>
+                    </tr>
+                    <tr class="sp1"><td></td><td></td></tr>
+                    <tr>
+                        <td class="label">Joint Name :</td>
+                        <td>{{ $account->joint_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">F/H/P :</td>
+                        <td>{{ $account->fhp }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Address :</td>
+                        <td>{{ $account->address }}</td>
+                    </tr>
+                    <tr class="sp3"><td></td><td></td></tr>
+                    <tr>
+                        <td class="label">City :</td>
+                        <td>{{ $account->city }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Phone :</td>
+                        <td>{{ $account->phone }}</td>
+                    </tr>
+                </table>
+            </td>
+            <td class="col-right">
+                <table class="kv">
+                    <tr>
+                        <td class="rlabel">Customer ID :</td>
+                        <td>{{ $account->customer_id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="rlabel">A/C No. :</td>
+                        <td>{{ $account->account_no }}</td>
+                    </tr>
+                    <tr>
+                        <td class="rlabel">Prev. A/C No. :</td>
+                        <td>{{ $account->prev_account_no }}</td>
+                    </tr>
+                    <tr>
+                        <td class="rlabel">A/C Type :</td>
+                        <td>{{ $account->account_type }}</td>
+                    </tr>
+                    <tr>
+                        <td class="rlabel">Currency :</td>
+                        <td>{{ $account->currency }}</td>
+                    </tr>
+                    <tr class="sp1"><td></td><td></td></tr>
+                    <tr>
+                        <td class="rlabel">A/C Status :</td>
+                        <td>{{ $account->status }}</td>
+                    </tr>
+                    <tr>
+                        <td class="rlabel">Period :</td>
+                        <td>{{ $period_from }} to {{ $period_to }}</td>
+                    </tr>
+                    <tr class="sp-sm"><td></td><td></td></tr>
+                    <tr>
+                        <td class="rlabel">Uncleared/ Floating Balance :</td>
+                        <td>{{ $fmt($account->uncleared_balance) }}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 
