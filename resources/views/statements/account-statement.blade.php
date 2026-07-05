@@ -64,16 +64,17 @@
             text-align: center;
         }
         /* Column widths measured from the reference grid (% of the 660pt table). */
-        .c-date    { width: 15.2%; text-align: center; }
-        .c-cheque  { width: 12.1%; text-align: center; }
-        .c-ref     { width: 11.5%; text-align: center; }
-        .c-narr    { width: 12.1%; text-align: center; }
-        .c-det     { width: 14.2%; }
-        .c-debit   { width: 11.5%; text-align: right; }
-        .c-credit  { width: 9.4%;  text-align: right; }
-        .c-balance { width: 13.9%; text-align: right; }
+        .c-date    { width: 14.5%; text-align: center; }
+        .c-cheque  { width: 10.5%; text-align: center; }
+        .c-ref     { width: 10.0%; text-align: center; }
+        .c-narr    { width: 10.5%; text-align: center; }
+        .c-det     { width: 13.0%; }
+        .c-debit   { width: 12.5%; text-align: right; }
+        .c-credit  { width: 13.5%; text-align: right; }
+        .c-balance { width: 15.5%; text-align: right; }
 
-        td.num { text-align: right; }
+        /* Amounts must never break across lines (keeps e.g. "...464.11" whole). */
+        td.num { text-align: right; white-space: nowrap; }
         td.ctr { text-align: center; }
 
         /* ---- Totals row: a detached box below the table (gap above),
