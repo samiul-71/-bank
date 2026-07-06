@@ -32,8 +32,9 @@ class AccountStatementController extends Controller
         // barryvdh wrapper won't re-render (which would drop the stamps).
         $pdf->render();
         $this->stampPageNumbers($pdf);
+        $this->setDocumentInfo($pdf);
 
-        $fileName = 'Statement_' . $account->account_no . '.pdf';
+        $fileName = 'BankStatement.pdf';
 
         return $request->boolean('download')
             ? $pdf->download($fileName)
@@ -60,5 +61,21 @@ class AccountStatementController extends Controller
         // page_text applies to every page; the placeholders are substituted
         // with the real page number / total at output time.
         $canvas->page_text($x, $y, $text, $font, $size, [0, 0, 0]);
+    }
+
+    /**
+     * Set the PDF document properties (Author / Creator / Producer / Title)
+     * so the generated file's metadata matches the reference statement.
+     * Must run after render() — dompdf writes these into the PDF at output.
+     */
+    private function setDocumentInfo(\Barryvdh\DomPDF\PDF $pdf): void
+    {
+        $dompdf = $pdf->getDomPDF();
+        $meta   = config('statement.meta', []);
+
+        $dompdf->addInfo('Title', $meta['title'] ?? '');
+        $dompdf->addInfo('Author', $meta['author'] ?? '');
+        $dompdf->addInfo('Creator', $meta['creator'] ?? '');
+        $dompdf->addInfo('Producer', $meta['producer'] ?? '');
     }
 }

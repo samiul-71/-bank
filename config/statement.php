@@ -21,4 +21,16 @@ return [
         'This report is provided by ' . rtrim(env('STATEMENT_INSTITUTION', 'United Commercial Bank PLC'), '.') . '.',
         'Remember, this is a system generated report and do not use it for official use.',
     ],
+
+    /*
+    | PDF document properties (the fields macOS "Get Info" / Adobe show under
+    | Author, Content Creator and Encoding software). Set to match the
+    | reference statement; override via .env if you brand your own.
+    */
+    'meta' => [
+        'title'    => env('STATEMENT_META_TITLE', 'Account Statement'),
+        'author'   => env('STATEMENT_META_AUTHOR', 'JasperReports Library version 6.4.0'),
+        'creator'  => env('STATEMENT_META_CREATOR', 'JasperReports Library version 6.4.0'),
+        'producer' => env('STATEMENT_META_PRODUCER', 'iText 2.1.7 by 1T3XT'),
+    ],
 ];
